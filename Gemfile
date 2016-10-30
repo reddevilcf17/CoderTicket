@@ -64,3 +64,4 @@ group :development do
 end
 
 gem 'simplecov', :require => false, :group => :test
+gem 'rails-controller-testing'

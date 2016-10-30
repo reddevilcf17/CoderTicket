@@ -9,8 +9,9 @@ RSpec.describe EventsController, type: :controller do
 	    end
 
 	    it "renders the index template" do
+	      events = Event.where('starts_at > ? and published_at is not null', Time.now)
 	      get :index
-	      expect(response).to render_template(:index)
+	      expect(assigns(:events).count).to eq events.count
 	    end
 
 	    # it "loads all of the events into @events" do
