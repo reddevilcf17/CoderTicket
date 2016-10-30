@@ -34,12 +34,28 @@ class EventsController < ApplicationController
 
   def create
     @event = Event.new(event_params)
+    @event.user_id = current_user.id
     if @event.save
       redirect_to new_event_ticket_type_path(@event)
     else
       flash[:notice] = @event.errors.full_messages.to_sentence
       redirect_to :back
     end    
+  end
+
+  def update
+    @categories = Category.all
+    @regions = Region.all
+    @event = Event.find(params[:id])    
+    @event.category_id = event_params[:category_id]
+    # @event.save
+    if @event.update(event_params)
+      flash[:success] = "Event successfully updated"
+      redirect_to @event
+    else
+      flash.now[:error] = @event.errors.full_messages.to_sentence
+      render action: 'edit'
+    end
   end
 
   def publish
