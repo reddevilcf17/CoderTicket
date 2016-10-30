@@ -1,18 +1,18 @@
 # Homework 3 - *CoderTicket*
 
-**Name of your app** is a Ruby on Rails application that allows users to create and buy tickets to cool events.
+**EventTicket** is a Ruby on Rails application that allows users to create and buy tickets to cool events.
 
 - Submitted by: **Nguyen Thanh Hung**
 - Time spent: **22** hours
-- URL: **Insert your Heroku URL here**
+- URL: **https://eventticket.herokuapp.com/**
 - SimpleCov Test Coverage: [coverage/index.html][coverage][index.html]
 
 ## User Stories
 
 The following **required** functionality is complete:
 
-* [ ] Implement required user stories
-* [ ] 10 model tests, 2 route tests, 2 controller tests, 2 view tests.
+* [x] Implement required user stories
+* [x] 10 model tests, 2 route tests, 2 controller tests, 2 view tests.
 
 The person with best test coverage will win a small present from the instructor :)
 
