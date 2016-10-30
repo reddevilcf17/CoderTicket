@@ -19,9 +19,24 @@
           </div>
           <div class="clearfix"></div>
         <% end %>
-        <%= link_to new_event_ticket_path(@event) do %>
+        <%= link_to new_event_ticket_order_path(@event) do %>
           <button class='btn btn-lg btn-block btn-danger'> BOOK NOW </button>
         <% end %>
+        
+        <% if @event.user_id == current_user.id %>
+          <div>            
+            <div>
+              <%= link_to 'Create Ticket Type', new_event_ticket_type_path(@event)  %>
+            </div>
+            <% if @event.published_at.nil? %>
+              <div>
+                <%= link_to 'Publish Event', publish_event_path(@event) %>
+              </div>  
+            <% end %>
+            <%= link_to 'Edit Event', edit_event_path(@event) %>
+          </div>  
+        <% end %>
+        
       </div>
     </div>
     <div class="col-md-9 event-content">

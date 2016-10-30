@@ -1,0 +1,74 @@
+<div class="row">
+  <div class="col-md-2"></div>
+  <div class="col-md-8 jumbotron">
+    <div class="panel-event-info">
+      <%= form_for event do |f| %>
+        <fieldset class="form-group">
+          <div class="row">
+            <div class="col-md-8">
+              <%= f.label :name, "Name:" %>
+              <%= f.text_field :name, class: "form-control", placeholder: "Name of your event" %>  
+            </div>  
+          </div>
+        </fieldset>
+        <fieldset class="form-group">
+          <%= f.label :hero_image_url, "Image url" %>
+          <%= f.text_field :hero_image_url, class: "form-control", placeholder: "URL to the hero image of the event" %>
+        </fieldset>
+        <fieldset class="form-group">
+          <div class="row">
+            <div class="col-md-4">
+              <%= f.label :category_id, "Category" %>
+              <br>
+              <%= f.select(:category_id, options_from_collection_for_select(@categories, :id, :name, event.category.id), {}, { class: "form-control"}) %>
+            </div>
+          </div>
+        </fieldset>
+        <%= f.fields_for :venue do |v| %>
+          <fieldset class="form-group">
+            <div class="row">
+              <div class="col-md-4">
+                <%= v.label :region_id, "Region" %>
+                <br>
+                <%= v.select(:region_id, options_from_collection_for_select(@regions, :id, :name, event.venue.region.id), {}, { class: "form-control"}) %>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="form-group">
+            <div class="row">
+              <div class="col-md-8">
+                <%= v.label :name, "Venue" %>
+                <%= v.text_field :name, class: "form-control", placeholder: "Name of the venue" %>  
+              </div>
+            </div>            
+          </fieldset>
+          <fieldset class="form-group">
+            <%= v.label :full_address, "Venue address" %>
+            <%= v.text_field :full_address, class: "form-control", placeholder: "Address of the venue" %>
+          </fieldset>          
+        <% end %>
+        <fieldset class="form-group" style="width: 49%; float: left;">
+          <%= f.label :starts_at, "Starts at" %>
+          <br>
+          <%= f.datetime_select :starts_at, class:"form-control" %>
+        </fieldset>
+        <fieldset class="form-group">
+          <%= f.label :ends_at, "Ends at" %>
+          <br>
+          <%= f.datetime_select :ends_at, class:"form-control" %>
+        </fieldset>
+        
+        <fieldset class="form-group">
+          <%= f.label :extended_html_description, "Description" %>
+          <%= f.text_area :extended_html_description, class: "form-control", placeholder: "Describe your event", rows: 10%>
+        </fieldset>
+
+        <div class="btn-grp">          
+          <%= f.submit "Next", class: "btn btn-success" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+

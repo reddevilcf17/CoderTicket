@@ -1,0 +1,31 @@
+<div class="row">
+  <div class="col-md-8 offset-md-2">
+    <h3>Create new ticket type for event <strong><%= @event.name %></strong></h3>   
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-8 offset-md-2 jumbotron">
+    <%= form_for [@event, @ticket_type] do |f| %>
+      <fieldset class="form-group">
+        <%= f.label :name, "Ticket type" %>
+        <%= f.text_field :name, class: "form-control", placeholder: "Name of ticket type" %>
+      </fieldset>
+      <fieldset class="form-group" style="width: 40%; float:left; margin-right: 20%;">
+        <%= f.label :price, "Price" %>
+        <%= f.text_field :price, class: "form-control", placeholder: "Price of ticket type" %>
+      </fieldset>
+      <fieldset class="form-group" style="width: 40%;">
+        <%= f.label :max_quantity, "Max quantity" %>
+        <%= f.text_field :max_quantity, class: "form-control", placeholder: "Total quantity available" %>
+      </fieldset>
+      
+      <div class="btn-grp">
+        <%= f.submit "Create", class: "btn" %>
+        or
+        <%= link_to 'Go to Event''s Page', event_path(@event) %>
+      </div>
+    <% end %>
+  </div>
+  
+</div>

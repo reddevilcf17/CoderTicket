@@ -1,0 +1,53 @@
+<div class="container-fluid tickets-buy">
+  <div class="row tickets-header">
+    <div class="col-xs-12 col-md-11 col-md-offset-1">
+      <h3> <%= @event.name %> </h3>
+      <div class="pull-left">
+        <%= fa_icon 'map-marker' %>
+      </div>
+      <div class="venue-details">
+       <%= @event.venue.name %>
+       <br/>
+       <%= @event.venue.full_address %>
+      </div>
+
+      <div class="pull-left">
+        <%= fa_icon 'clock-o' %>
+      </div>
+      <div class="time-details"> 
+        <%= @event.starts_at.strftime('%A, %d %b %Y %l:%M %p') %> 
+      </div>
+
+
+    </div>
+  </div>
+  <%= form_for @ticket_order, :url => event_ticket_orders_path, action: 'post' do |f| %>
+    <%= f.hidden_field :event_id, value: @event.id %>
+    <div class="row">
+      <div class="col-md-11 col-md-offset-1">  
+        <table class="table">
+          <th> Ticket Type </th>
+          <th> Unit Price </th>
+          <th> Quantity </th>
+        
+
+            <%= f.fields_for :ticket_details do |td| %>
+              <tr>
+                <%= td.hidden_field :ticket_type_id, value: td.object.ticket_type.id %>
+                <td> <%= td.object.ticket_type.name %> </td>
+                <td> <%= number_to_currency(td.object.ticket_type.price, unit: 'VND ', precision: 0) %> </td>
+                <td> <%= td.select(:quantity, options_for_select(0..10)) %></td> 
+              </tr>
+            <% end %> 
+
+        </table>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-2 col-md-offset-5">
+        <%= f.submit("Buy", :class=>"btn btn-success btn-lg btn-block") %>  
+      </div>
+    <div>
+  <% end -%>
+</div>  
+

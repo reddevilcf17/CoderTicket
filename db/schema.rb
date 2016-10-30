@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -11,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151215104433) do
+ActiveRecord::Schema.define(version: 20161030045011) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,15 +31,27 @@ ActiveRecord::Schema.define(version: 20151215104433) do
     t.string   "name"
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
+    t.datetime "published_at"
+    t.integer  "user_id"
+    t.index ["category_id"], name: "index_events_on_category_id", using: :btree
+    t.index ["user_id"], name: "index_events_on_user_id", using: :btree
+    t.index ["venue_id"], name: "index_events_on_venue_id", using: :btree
   end
-
-  add_index "events", ["category_id"], name: "index_events_on_category_id", using: :btree
-  add_index "events", ["venue_id"], name: "index_events_on_venue_id", using: :btree
 
   create_table "regions", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "ticket_details", force: :cascade do |t|
+    t.integer  "ticket_id"
+    t.integer  "ticket_type_id"
+    t.integer  "quantity"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.index ["ticket_id"], name: "index_ticket_details_on_ticket_id", using: :btree
+    t.index ["ticket_type_id"], name: "index_ticket_details_on_ticket_type_id", using: :btree
   end
 
   create_table "ticket_types", force: :cascade do |t|
@@ -50,9 +61,36 @@ ActiveRecord::Schema.define(version: 20151215104433) do
     t.integer  "max_quantity"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+    t.index ["event_id"], name: "index_ticket_types_on_event_id", using: :btree
   end
 
-  add_index "ticket_types", ["event_id"], name: "index_ticket_types_on_event_id", using: :btree
+  create_table "tickets", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "total_amount"
+    t.integer  "event_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.index ["event_id"], name: "index_tickets_on_event_id", using: :btree
+    t.index ["user_id"], name: "index_tickets_on_user_id", using: :btree
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string   "email",                  default: "", null: false
+    t.string   "encrypted_password",     default: "", null: false
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",          default: 0,  null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.inet     "current_sign_in_ip"
+    t.inet     "last_sign_in_ip"
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.string   "name"
+    t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+  end
 
   create_table "venues", force: :cascade do |t|
     t.string   "name"
@@ -60,12 +98,16 @@ ActiveRecord::Schema.define(version: 20151215104433) do
     t.integer  "region_id"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+    t.index ["region_id"], name: "index_venues_on_region_id", using: :btree
   end
 
-  add_index "venues", ["region_id"], name: "index_venues_on_region_id", using: :btree
-
   add_foreign_key "events", "categories"
+  add_foreign_key "events", "users"
   add_foreign_key "events", "venues"
+  add_foreign_key "ticket_details", "ticket_types"
+  add_foreign_key "ticket_details", "tickets"
   add_foreign_key "ticket_types", "events"
+  add_foreign_key "tickets", "events"
+  add_foreign_key "tickets", "users"
   add_foreign_key "venues", "regions"
 end
